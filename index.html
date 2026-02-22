@@ -1,1 +1,206 @@
-呱
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anshaer | Dynamic Space</title>
+    <style>
+        :root {
+            /* 暖色定義 */
+            --warm-start: #ff7e5f;
+            --warm-end: #feb47b;
+            /* 冷色定義 */
+            --cool-start: #2193b0;
+            --cool-end: #6dd5ed;
+            --text-main: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Heiti TC', sans-serif;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        /* 驚喜：流體動態背景 */
+        .bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, var(--warm-start), var(--warm-end), var(--cool-start), var(--cool-end));
+            background-size: 400% 400%;
+            animation: shiftGradient 20s ease-in-out infinite;
+            filter: contrast(120%) brightness(110%);
+        }
+
+        @keyframes shiftGradient {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 100%; } /* 轉向冷色 */
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 0%; }   /* 回歸暖色 */
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 玻璃容器 */
+        .glass-box {
+            width: 85%;
+            max-width: 1100px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        /* 角色圖懸浮感 */
+        .avatar-container {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            z-index: 2;
+            position: relative;
+            /* 讓角色圖微微跳動 */
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* 連結清單佈局 */
+        .info-container {
+            flex: 1;
+            min-width: 350px;
+            padding: 20px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .name-tag {
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            margin-bottom: 5px;
+            font-weight: 900;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            width: fit-content;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .btn-link {
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid transparent;
+        }
+
+        .btn-link:hover {
+            transform: scale(1.05);
+            background: #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            color: #ff7e5f; /* 懸停時偏暖 */
+        }
+
+        /* 行動裝置最佳化 */
+        @media (max-width: 768px) {
+            .glass-box {
+                padding: 30px 15px;
+                margin: 20px;
+                flex-direction: column;
+                align-items: center;
+            }
+            .info-container {
+                padding: 20px 0;
+                text-align: center;
+                min-width: 100%;
+            }
+            .status-badge {
+                margin: 0 auto 30px;
+            }
+            .name-tag { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-canvas"></div>
+
+    <div class="glass-box">
+        <div class="avatar-container">
+            <div class="avatar-wrapper">
+                <img src="https://via.placeholder.com/400x550/ffffff/333333?text=Character+Art" alt="Character" class="avatar-img">
+            </div>
+        </div>
+
+        <div class="info-container">
+            <h1 class="name-tag">Anshaer</h1>
+            <div class="status-badge">Creative Freelancer</div>
+            
+            <div class="link-grid">
+                <a href="#" class="btn-link">推特</a>
+                <a href="#" class="btn-link">YouTube</a>
+                <a href="#" class="btn-link">圖奇</a>
+                <a href="#" class="btn-link">合作伙伴</a>
+                <a href="#" class="btn-link">實用工具</a>
+                <a href="#" class="btn-link">個人作品</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
